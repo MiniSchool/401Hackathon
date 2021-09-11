@@ -101,7 +101,7 @@ def calculateCaloricIntakeMetric(request, gender, weight, height, age, activityL
 
     return calories
 
-def caloricToMacros(calories, goal):
+def caloricToMacros(request ,calories, goal):
     macroGoalClassification = {"LW": "Lose Weight", "GW": "Gain Weight", "MW": "Maintain Weight"}
     macros = []
     if goal == "LW":
