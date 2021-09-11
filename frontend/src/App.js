@@ -1,5 +1,7 @@
 import './App.css';
 import MainBody from './Layout/MainBody'
+const axios = require('axios');
+
 
 function App() {
   return (
