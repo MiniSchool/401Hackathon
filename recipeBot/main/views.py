@@ -40,9 +40,9 @@ def calculateCaloricIntakeImperial(request, gender, weight, feet, inches, age, a
     activityLevelClassification = {"S": "Sedentary", "LA" : "Lightly Active", "MA" : "Moderately Active", "VA": "Very Active", "EA" : "Extra Active"}
     inchConversion = (12 * feet) + inches
     if gender == 'M':
-        BMR = 66 + (6.3 x weight) + (12.9 x inchConversion) - (6.8 x age)
+        BMR = 66 + (6.3 * weight) + (12.9 * inchConversion) - (6.8 * age)
     elif gender == 'F':
-        BMR = 655 + (4.3 x weight) + (4.7 x inchConversion) - (4.7 x age)
+        BMR = 655 + (4.3 * weight) + (4.7 * inchConversion) - (4.7 * age)
     else:
         print("Gender not specified, try again!")
   
@@ -65,9 +65,9 @@ def calculateCaloricIntakeImperial(request, gender, weight, feet, inches, age, a
 def calculateCaloricIntakeMetric(request, gender, weight, height, age, activityLevel):
     activityLevelClassification = {"S": "Sedentary", "LA" : "Lightly Active", "MA" : "Moderately Active", "VA": "Very Active", "EA" : "Extra Active"}
     if gender == 'M':
-        BMR = 66.47 + (13.75 x weight) + (5.003 x height) - (6.755 x age)
+        BMR = 66.47 + (13.75 * weight) + (5.003 * height) - (6.755 * age)
     elif gender == 'F':
-        BMR = 655.1 + (9.563 x weight) + (1.850 x height) - (4.676 x age)
+        BMR = 655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age)
     else:
         print("Gender not specified, try again!")
   
