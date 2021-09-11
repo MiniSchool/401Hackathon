@@ -55,6 +55,15 @@ code {
   /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 10px 0 rgba(0, 0, 0, 0.1); */
 }
 
-.complex-text-bubble:p {
+.complex-text-bubble {
+  display: inline;
+}
+
+.input-box {
+  width: 50%;
+}
+
+.input-button {
+  width: 10%;
   display: inline;
 }

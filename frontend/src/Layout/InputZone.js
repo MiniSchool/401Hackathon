@@ -4,7 +4,9 @@ import TextInputBox from '../Components/TextInputBox'
 class InputZone extends Component {
     render() {
         return (
-            <TextInputBox />
+            <div>
+                <TextInputBox />
+            </div>
         )
     }
 }
