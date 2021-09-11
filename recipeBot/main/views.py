@@ -96,3 +96,24 @@ def calculateCaloricIntakeMetric(request, gender, weight, height, age, activityL
         print("activity level not specified, try again!")
 
     return calories
+
+def caloricToMacros(calories, goal):
+    macroGoalClassification = {"LW": "Lose Weight", "GW": "Gain Weight", "MW": "Maintain Weight"}
+    macros = []
+    if goal == "LW":
+        carbs = (0.5 * calories) / 4
+        protein = (0.2 * calories) / 4
+        fat = (0.3 * calories) / 9
+    elif goal == "GW":
+        carbs = (0.55 * calories) / 4
+        protein = (0.25 * calories) / 4
+        fat = (0.2 * calories) / 9
+    elif goal == "MW":
+        carbs = (0.45 * calories) / 4
+        protein = (0.3 * calories) / 4
+        fat = (0.25 * calories) / 9
+    carbs = int(carbs)
+    fat = int(fat)
+    protein = int(protein) 
+    macros = [str(carbs) + "g", str(protein) + "g", str(fat) + "g"]
+    return macros
