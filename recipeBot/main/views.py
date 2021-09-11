@@ -5,15 +5,24 @@ import requests, json, os
 def index(response):
     recipeApi = '53402d637f4345cb83aac523d64ec275'
 
+    filters = '&minProtein = 30'
+
+    cuisine = '&cuisine = italian'
+
+    diet = '&diet = vegetarian'
     
-    recipeAddress = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=' + recipeApi
+    recipeAddress = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=' + recipeApi + filters
+
+    recipeTaste = 'https://api.spoonacular.com/recipes/69095/tasteWidget?apiKey=' + recipeApi
+
+    recipeDesc = 'https://api.spoonacular.com/recipes/{id}/summary'
     
     r = requests.get(recipeAddress)
     j = json.loads(r.text)
 
     print(j)
 
-    return render(response, 'main/index.html', {'info':j})
+    return render(response, 'main/index.html', {'info':recipeTaste})
 
 def calculateBMImetric(request ,height:int, weight:int):
     BMI = (weight / height / height) * 10000
