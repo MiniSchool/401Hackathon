@@ -2,6 +2,8 @@ import './App.css';
 import MainBody from './Layout/MainBody'
 import InputZone from './Layout/InputZone'
 
+const axios = require('axios');
+
 function App() {
   return (
     <div className="App">
