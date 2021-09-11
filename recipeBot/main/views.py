@@ -1,6 +1,10 @@
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 import requests, json, os
+from rest_framework import viewsets
+
+# class IndexView(viewsets.ModelViewSet):
+
 
 # Create your views here.
 def index(response):
