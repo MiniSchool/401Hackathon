@@ -17,12 +17,14 @@ def index(response):
         weight = int(response.POST.get('weightInput'))
         height = int(response.POST.get('heightInput'))
         activityLevel = response.POST.get('activityInput')
+        goal = response.POST.get('goalInput')
 
-        calories = '&minCalories=' + str(calculateCaloricIntakeMetric(gender, weight, height, age, activityLevel))
+        calories = calculateCaloricIntakeMetric(gender, weight, height, age, activityLevel)
 
-        # cuisine = '&cuisine=' + response.POST.get('cuisine')
-        recipeAddress = recipeAddress + calories
-        print(recipeAddress)
+        macros = caloricToMacros(calories, goal)
+
+        protein = '&minProtein=' + str(int(macros[1][:1])/4)
+        recipeAddress = recipeAddress + protein
         r = requests.get(recipeAddress)
         j = json.loads(r.text)
 
@@ -88,7 +90,7 @@ def calculateCaloricIntakeImperial(gender, weight, feet, inches, age, activityLe
     return calories
 
 #formula found in https://www.verywellfit.com/how-many-calories-do-i-need-each-day-2506873
-def calculateCaloricIntakeMetric(request, gender, weight, height, age, activityLevel):
+def calculateCaloricIntakeMetric(gender, weight, height, age, activityLevel):
     activityLevelClassification = {"S": "Sedentary", "LA" : "Lightly Active", "MA" : "Moderately Active", "VA": "Very Active", "EA" : "Extra Active"}
     if gender == 'M':
         BMR = 66.47 + (13.75 * weight) + (5.003 * height) - (6.755 * age)
@@ -112,7 +114,7 @@ def calculateCaloricIntakeMetric(request, gender, weight, height, age, activityL
 
     return calories
 
-def caloricToMacros(request ,calories, goal):
+def caloricToMacros(calories, goal):
     macroGoalClassification = {"LW": "Lose Weight", "GW": "Gain Weight", "MW": "Maintain Weight"}
     macros = []
     if goal == "LW":
