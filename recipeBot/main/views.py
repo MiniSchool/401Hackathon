@@ -10,14 +10,25 @@ from rest_framework import viewsets
 def index(response):
     recipeApi = '53402d637f4345cb83aac523d64ec275'
     recipeAddress = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=' + recipeApi
-    result = ''
+    result = []
     if response.method == "POST":
-        cuisine = '&cuisine=' + response.POST.get('cuisine')
-        recipeAddress = recipeAddress + cuisine
+        age = int(response.POST.get('ageInput'))
+        gender = response.POST.get('genderInput')[0].upper()
+        weight = int(response.POST.get('weightInput'))
+        height = int(response.POST.get('heightInput'))
+        activityLevel = response.POST.get('activityInput')
+
+        calories = '&minCalories=' + str(calculateCaloricIntakeMetric(gender, weight, height, age, activityLevel))
+
+        # cuisine = '&cuisine=' + response.POST.get('cuisine')
+        recipeAddress = recipeAddress + calories
+        print(recipeAddress)
         r = requests.get(recipeAddress)
         j = json.loads(r.text)
 
-        result = j.get('results')[0].get('title')
+        print(j)
+
+        # result['title'] = j.get('results')[0].get('title')
         # print(filter)
 
     # filters = '&minProtein = 30'
@@ -51,7 +62,7 @@ def calculateBmiImperial(request,feet:int, inches:int, weight:int):
     return BMI
 
 # formulas found in https://www.checkyourhealth.org/eat-healthy/cal_calculator.php
-def calculateCaloricIntakeImperial(request, gender, weight, feet, inches, age, activityLevel):
+def calculateCaloricIntakeImperial(gender, weight, feet, inches, age, activityLevel):
     activityLevelClassification = {"S": "Sedentary", "LA" : "Lightly Active", "MA" : "Moderately Active", "VA": "Very Active", "EA" : "Extra Active"}
     inchConversion = (12 * feet) + inches
     if gender == 'M':

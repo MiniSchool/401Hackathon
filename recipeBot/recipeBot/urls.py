@@ -21,6 +21,6 @@ from rest_framework import routers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include('main.urls')),
-    path('', TemplateView.as_view(template_name='index.html'))
+    path('', include('main.urls')),
+    # path('', TemplateView.as_view(template_name='index.html'))
 ]

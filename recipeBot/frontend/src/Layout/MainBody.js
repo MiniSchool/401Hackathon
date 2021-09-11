@@ -18,10 +18,13 @@ class MainBody extends Component {
 
         return (
             <div className="main-body">
-                <TextBubble isUser={true} text={lorem} />
+                {this.props.chatHistory.map((chat, n) =>
+                    <TextBubble key={n} isUser={chat.sendByUser} text={chat.text} />
+                )}
+                {/* <TextBubble isUser={true} text={lorem} />
                 <TextBubble isUser={false} text={lorem} />
 
-                <ComplexTextBubble src={recipe1} title={"Simple Carbonara"} text={lorem} />
+                <ComplexTextBubble src={recipe1} title={"Simple Carbonara"} text={lorem} /> */}
             </div>
         )
     }
