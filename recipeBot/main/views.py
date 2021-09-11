@@ -1,28 +1,39 @@
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 import requests, json, os
 
 # Create your views here.
 def index(response):
     recipeApi = '53402d637f4345cb83aac523d64ec275'
+    recipeAddress = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=' + recipeApi
+    result = ''
+    if response.method == "POST":
+        cuisine = '&cuisine=' + response.POST.get('cuisine')
+        recipeAddress = recipeAddress + cuisine
+        r = requests.get(recipeAddress)
+        j = json.loads(r.text)
 
-    filters = '&minProtein = 30'
+        result = j.get('results')[0].get('title')
+        # print(filter)
 
-    cuisine = '&cuisine = italian'
+    # filters = '&minProtein = 30'
 
-    diet = '&diet = vegetarian'
+    # cuisine = '&cuisine = italian'
+
+    # diet = '&diet = vegetarian'
     
-    recipeAddress = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=' + recipeApi + filters
+    # recipeAddress = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=' + recipeApi + filters
 
-    recipeTaste = 'https://api.spoonacular.com/recipes/69095/tasteWidget?apiKey=' + recipeApi
+    # recipeTaste = 'https://api.spoonacular.com/recipes/69095/tasteWidget?apiKey=' + recipeApi
 
-    recipeDesc = 'https://api.spoonacular.com/recipes/{id}/summary'
+    # recipeDesc = 'https://api.spoonacular.com/recipes/{id}/summary'
     
-    r = requests.get(recipeAddress)
-    j = json.loads(r.text)
+    # r = requests.get(recipeAddress)
+    # j = json.loads(r.text)
 
-    print(j)
+    # print(j)
 
-    return render(response, 'main/index.html', {'info':recipeTaste})
+    return render(response, 'main/index.html', {'info':result})
 
 # formulas found in https://drbillsukala.com/body-mass-index-calculator/#:~:text=BMI%20imperial%20formula&text=The%20US%20imperial%20formula%20for,in%20inches%20(height%20squared).
 def calculateBmiMetric(request ,height:int, weight:int):
