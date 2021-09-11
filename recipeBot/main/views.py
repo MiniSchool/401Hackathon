@@ -98,9 +98,9 @@ def calculateCaloricIntakeMetric(request, gender, weight, height, age, activityL
         calories = BMR * 1.9
     else:
         print("activity level not specified, try again!")
-
     return calories
 
+# ratios can be found here: https://www.acefitness.org/education-and-resources/professional/expert-articles/5904/how-to-determine-the-best-macronutrient-ratio-for-your-goals/
 def caloricToMacros(request ,calories, goal):
     macroGoalClassification = {"LW": "Lose Weight", "GW": "Gain Weight", "MW": "Maintain Weight"}
     macros = []
