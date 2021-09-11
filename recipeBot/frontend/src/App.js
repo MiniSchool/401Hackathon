@@ -1,6 +1,5 @@
 import './App.css';
-import MainBody from './Layout/MainBody'
-import InputZone from './Layout/InputZone'
+import Layout from './Layout/Layout'
 
 const axios = require('axios');
 
@@ -11,8 +10,7 @@ function App() {
         <h1>The App</h1>
       </header>
       <body>
-        <MainBody />
-        <InputZone />
+        <Layout />
       </body>
     </div>
   );
