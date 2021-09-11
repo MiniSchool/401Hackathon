@@ -3,9 +3,9 @@ import React, { Component } from "react";
 class TextInputBox extends Component {
     render() {
         return (
-            <div className="input-group input-box">
-                <span className="input-group-text">Chat with Me</span>
-                <textarea className="form-control" aria-label="With textarea"></textarea>
+            <div className="form-floating">
+                <textarea className="form-control input-box" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                <label for="floatingTextarea">Comments</label>
             </div>
         )
     }
