@@ -25,8 +25,7 @@ code {
   max-width: 50em;
 
   padding: 1.125em 1.5em;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem 1rem 1rem 1rem;
   font-size: 1.25em;
   border-radius: 1rem;
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
@@ -39,7 +38,6 @@ code {
 
 .text-bubble-chatbot {
   margin-left: auto;
-  margin-right: 0;
 
   background-color: #c5cbe3;
 }
@@ -66,4 +64,14 @@ code {
 .input-button {
   width: 10%;
   display: inline;
+}
+
+.input-zone {
+  background-color: beige;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  overflow-y: scroll;
 }
