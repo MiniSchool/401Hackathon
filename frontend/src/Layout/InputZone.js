@@ -6,8 +6,6 @@ class InputZone extends Component {
         return (
             <div>
                 <TextInputBox />
-                <button type="button" className="btn btn-outline-dark input-button">Send</button>
-
             </div>
         )
     }
