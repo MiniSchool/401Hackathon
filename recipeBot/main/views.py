@@ -1,3 +1,4 @@
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 import requests, json, os
 
@@ -5,14 +6,14 @@ import requests, json, os
 def index(response):
     recipeApi = '53402d637f4345cb83aac523d64ec275'
     recipeAddress = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=' + recipeApi
-    result = 'test'
+    result = ''
     if response.method == "POST":
         cuisine = '&cuisine=' + response.POST.get('cuisine')
         recipeAddress = recipeAddress + cuisine
         r = requests.get(recipeAddress)
         j = json.loads(r.text)
 
-        result = j.get('results')[0]
+        result = j.get('results')[0].get('title')
         # print(filter)
 
     # filters = '&minProtein = 30'
