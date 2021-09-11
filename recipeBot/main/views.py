@@ -1,28 +1,43 @@
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 import requests, json, os
+from rest_framework import viewsets
+
+# class IndexView(viewsets.ModelViewSet):
+
 
 # Create your views here.
 def index(response):
     recipeApi = '53402d637f4345cb83aac523d64ec275'
+    recipeAddress = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=' + recipeApi
+    result = ''
+    if response.method == "POST":
+        cuisine = '&cuisine=' + response.POST.get('cuisine')
+        recipeAddress = recipeAddress + cuisine
+        r = requests.get(recipeAddress)
+        j = json.loads(r.text)
 
-    filters = '&minProtein = 30'
+        result = j.get('results')[0].get('title')
+        # print(filter)
 
-    cuisine = '&cuisine = italian'
+    # filters = '&minProtein = 30'
 
-    diet = '&diet = vegetarian'
+    # cuisine = '&cuisine = italian'
+
+    # diet = '&diet = vegetarian'
     
-    recipeAddress = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=' + recipeApi + filters
+    # recipeAddress = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=' + recipeApi + filters
 
-    recipeTaste = 'https://api.spoonacular.com/recipes/69095/tasteWidget?apiKey=' + recipeApi
+    # recipeTaste = 'https://api.spoonacular.com/recipes/69095/tasteWidget?apiKey=' + recipeApi
 
-    recipeDesc = 'https://api.spoonacular.com/recipes/{id}/summary'
+    # recipeDesc = 'https://api.spoonacular.com/recipes/{id}/summary'
     
-    r = requests.get(recipeAddress)
-    j = json.loads(r.text)
+    # r = requests.get(recipeAddress)
+    # j = json.loads(r.text)
 
-    print(j)
+    # print(j)
 
-    return render(response, 'main/index.html', {'info':recipeTaste})
+    return render(response, 'main/index.html', {'info':result})
 
 # formulas found in https://drbillsukala.com/body-mass-index-calculator/#:~:text=BMI%20imperial%20formula&text=The%20US%20imperial%20formula%20for,in%20inches%20(height%20squared).
 def calculateBmiMetric(request ,height:int, weight:int):
@@ -40,9 +55,9 @@ def calculateCaloricIntakeImperial(request, gender, weight, feet, inches, age, a
     activityLevelClassification = {"S": "Sedentary", "LA" : "Lightly Active", "MA" : "Moderately Active", "VA": "Very Active", "EA" : "Extra Active"}
     inchConversion = (12 * feet) + inches
     if gender == 'M':
-        BMR = 66 + (6.3 x weight) + (12.9 x inchConversion) - (6.8 x age)
+        BMR = 66 + (6.3 * weight) + (12.9 * inchConversion) - (6.8 * age)
     elif gender == 'F':
-        BMR = 655 + (4.3 x weight) + (4.7 x inchConversion) - (4.7 x age)
+        BMR = 655 + (4.3 * weight) + (4.7 * inchConversion) - (4.7 * age)
     else:
         print("Gender not specified, try again!")
   
@@ -65,9 +80,9 @@ def calculateCaloricIntakeImperial(request, gender, weight, feet, inches, age, a
 def calculateCaloricIntakeMetric(request, gender, weight, height, age, activityLevel):
     activityLevelClassification = {"S": "Sedentary", "LA" : "Lightly Active", "MA" : "Moderately Active", "VA": "Very Active", "EA" : "Extra Active"}
     if gender == 'M':
-        BMR = 66.47 + (13.75 x weight) + (5.003 x height) - (6.755 x age)
+        BMR = 66.47 + (13.75 * weight) + (5.003 * height) - (6.755 * age)
     elif gender == 'F':
-        BMR = 655.1 + (9.563 x weight) + (1.850 x height) - (4.676 x age)
+        BMR = 655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age)
     else:
         print("Gender not specified, try again!")
   

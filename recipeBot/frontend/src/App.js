@@ -1,5 +1,8 @@
 import './App.css';
 import MainBody from './Layout/MainBody'
+import InputZone from './Layout/InputZone'
+
+const axios = require('axios');
 
 function App() {
   return (
@@ -9,6 +12,7 @@ function App() {
       </header>
       <body>
         <MainBody />
+        <InputZone />
       </body>
     </div>
   );

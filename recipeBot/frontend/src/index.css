@@ -20,8 +20,9 @@ code {
 }
 
 .text-bubble {
+  text-align: left;
   position: relative;
-  max-width: 30em;
+  max-width: 50em;
 
   padding: 1.125em 1.5em;
   margin-top: 1rem;
@@ -48,5 +49,21 @@ code {
 }
 
 .recipe-img {
+  display: inline;
   width: 30%;
+  border-radius: 0.2rem;
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 10px 0 rgba(0, 0, 0, 0.1); */
+}
+
+.complex-text-bubble {
+  display: inline;
+}
+
+.input-box {
+  width: 50%;
+}
+
+.input-button {
+  width: 10%;
+  display: inline;
 }
