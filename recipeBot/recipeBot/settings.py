@@ -56,7 +56,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'recipeBot.urls'
-
 FRONTEND_DIR = os.path.abspath(os.path.join(BASE_DIR, "frontend"))
 
 TEMPLATES = [
