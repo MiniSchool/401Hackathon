@@ -3,6 +3,7 @@ import MainBody from "./MainBody";
 import InputZone from "./InputZone";
 import TextInputBox from "../Components/TextInputBox";
 import ButtonZone from "./ButtonZone";
+import DialogueParser from "../Scripts/DialogueParser";
 
 const axios = require('axios');
 
@@ -27,6 +28,7 @@ class Layout extends Component {
 
     handleSend(t) {
         let newChatHistory = this.state.chatHistory;
+        let parser = new DialogueParser();
 
         let newMessage = {
             sendByUser: true,
@@ -47,12 +49,11 @@ class Layout extends Component {
             chatHistory: newChatHistory
         })
 
+        const parsed = parser.parse(newMessage.text);
+
         axios.defaults.xsrfCookieName = 'csrftoken';
         axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-        axios.post('', {
-            firstName: 'Fred',
-            lastName: 'Flintstone'
-          })
+        axios.post('', parsed)
           .then(function (response) {
             console.log(response);
           })

@@ -231,11 +231,5 @@ class DialogueParser {
     }
 }
 
-let parser = new DialogueParser;
 
-let test = parser.parse("I am pounds or 6000 grams. I am 10 years old. Recipe with tomato, w/ love, without egg, no milk. allergic to eggs keto and vegan");
-
-console.log(test);
-
-
-//export default DialogueParser;
+export default DialogueParser;
