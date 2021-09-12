@@ -4,6 +4,8 @@ import InputZone from "./InputZone";
 import TextInputBox from "../Components/TextInputBox";
 import ButtonZone from "./ButtonZone";
 
+const axios = require('axios');
+
 /**
  * Response types:
  *  0: text
@@ -44,6 +46,17 @@ class Layout extends Component {
         this.setState({
             chatHistory: newChatHistory
         })
+
+        axios.post('', {
+            firstName: 'Fred',
+            lastName: 'Flintstone'
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
 
     };
 
