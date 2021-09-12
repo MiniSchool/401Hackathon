@@ -1,19 +1,37 @@
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 import requests, json, os
+from rest_framework import viewsets
+
+# class IndexView(viewsets.ModelViewSet):
+
 
 # Create your views here.
 def index(response):
     recipeApi = '53402d637f4345cb83aac523d64ec275'
     recipeAddress = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=' + recipeApi
-    result = ''
+    result = []
     if response.method == "POST":
-        cuisine = '&cuisine=' + response.POST.get('cuisine')
-        recipeAddress = recipeAddress + cuisine
+        print(response.POST.get('firstName'))
+        # age = int(response.POST.get('ageInput'))
+        # gender = response.POST.get('genderInput')[0].upper()
+        # weight = int(response.POST.get('weightInput'))
+        # height = int(response.POST.get('heightInput'))
+        # activityLevel = response.POST.get('activityInput')
+        # goal = response.POST.get('goalInput')
+
+        # calories = calculateCaloricIntakeMetric(gender, weight, height, age, activityLevel)
+
+        # macros = caloricToMacros(calories, goal)
+
+        # protein = '&minProtein=' + str(int(macros[1][:1])/4)
+        # recipeAddress = recipeAddress + protein
         r = requests.get(recipeAddress)
         j = json.loads(r.text)
 
-        result = j.get('results')[0].get('title')
+        print(j)
+
+        # result['title'] = j.get('results')[0].get('title')
         # print(filter)
 
     # filters = '&minProtein = 30'
@@ -47,52 +65,73 @@ def calculateBmiImperial(request,feet:int, inches:int, weight:int):
     return BMI
 
 # formulas found in https://www.checkyourhealth.org/eat-healthy/cal_calculator.php
-# def calculateCaloricIntakeImperial(request, gender, weight, feet, inches, age, activityLevel):
-#     activityLevelClassification = {"S": "Sedentary", "LA" : "Lightly Active", "MA" : "Moderately Active", "VA": "Very Active", "EA" : "Extra Active"}
-#     inchConversion = (12 * feet) + inches
-#     if gender == 'M':
-#         BMR = 66 + (6.3 x weight) + (12.9 x inchConversion) - (6.8 x age)
-#     elif gender == 'F':
-#         BMR = 655 + (4.3 x weight) + (4.7 x inchConversion) - (4.7 x age)
-#     else:
-#         print("Gender not specified, try again!")
+def calculateCaloricIntakeImperial(gender, weight, feet, inches, age, activityLevel):
+    activityLevelClassification = {"S": "Sedentary", "LA" : "Lightly Active", "MA" : "Moderately Active", "VA": "Very Active", "EA" : "Extra Active"}
+    inchConversion = (12 * feet) + inches
+    if gender == 'M':
+        BMR = 66 + (6.3 * weight) + (12.9 * inchConversion) - (6.8 * age)
+    elif gender == 'F':
+        BMR = 655 + (4.3 * weight) + (4.7 * inchConversion) - (4.7 * age)
+    else:
+        print("Gender not specified, try again!")
   
-#     if activityLevel == 'S':
-#         calories = BMR * 1.2
-#     elif activityLevel == 'LA':
-#         calories = BMR * 1.375
-#     elif activityLevel == 'MA':
-#         calories = BMR * 1.55 
-#     elif activityLevel == 'VA':
-#         calories = BMR * 1.725
-#     elif activityLevel == 'EA':
-#         calories = BMR * 1.9
-#     else:
-#         print("activity level not specified, try again!")
+    if activityLevel == 'S':
+        calories = BMR * 1.2
+    elif activityLevel == 'LA':
+        calories = BMR * 1.375
+    elif activityLevel == 'MA':
+        calories = BMR * 1.55 
+    elif activityLevel == 'VA':
+        calories = BMR * 1.725
+    elif activityLevel == 'EA':
+        calories = BMR * 1.9
+    else:
+        print("activity level not specified, try again!")
 
-#     return calories
+    return calories
 
 #formula found in https://www.verywellfit.com/how-many-calories-do-i-need-each-day-2506873
-# def calculateCaloricIntakeMetric(request, gender, weight, height, age, activityLevel):
-#     activityLevelClassification = {"S": "Sedentary", "LA" : "Lightly Active", "MA" : "Moderately Active", "VA": "Very Active", "EA" : "Extra Active"}
-#     if gender == 'M':
-#         BMR = 66.47 + (13.75 x weight) + (5.003 x height) - (6.755 x age)
-#     elif gender == 'F':
-#         BMR = 655.1 + (9.563 x weight) + (1.850 x height) - (4.676 x age)
-#     else:
-#         print("Gender not specified, try again!")
+def calculateCaloricIntakeMetric(gender, weight, height, age, activityLevel):
+    activityLevelClassification = {"S": "Sedentary", "LA" : "Lightly Active", "MA" : "Moderately Active", "VA": "Very Active", "EA" : "Extra Active"}
+    if gender == 'M':
+        BMR = 66.47 + (13.75 * weight) + (5.003 * height) - (6.755 * age)
+    elif gender == 'F':
+        BMR = 655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age)
+    else:
+        print("Gender not specified, try again!")
   
-#     if activityLevel == 'S':
-#         calories = BMR * 1.2
-#     elif activityLevel == 'LA':
-#         calories = BMR * 1.375
-#     elif activityLevel == 'MA':
-#         calories = BMR * 1.55 
-#     elif activityLevel == 'VA':
-#         calories = BMR * 1.725
-#     elif activityLevel == 'EA':
-#         calories = BMR * 1.9
-#     else:
-#         print("activity level not specified, try again!")
+    if activityLevel == 'S':
+        calories = BMR * 1.2
+    elif activityLevel == 'LA':
+        calories = BMR * 1.375
+    elif activityLevel == 'MA':
+        calories = BMR * 1.55 
+    elif activityLevel == 'VA':
+        calories = BMR * 1.725
+    elif activityLevel == 'EA':
+        calories = BMR * 1.9
+    else:
+        print("activity level not specified, try again!")
+    return calories
 
-#     return calories
+# ratios can be found here: https://www.acefitness.org/education-and-resources/professional/expert-articles/5904/how-to-determine-the-best-macronutrient-ratio-for-your-goals/
+def caloricToMacros(request ,calories, goal):
+    macroGoalClassification = {"LW": "Lose Weight", "GW": "Gain Weight", "MW": "Maintain Weight"}
+    macros = []
+    if goal == "LW":
+        carbs = (0.5 * calories) / 4
+        protein = (0.2 * calories) / 4
+        fat = (0.3 * calories) / 9
+    elif goal == "GW":
+        carbs = (0.55 * calories) / 4
+        protein = (0.25 * calories) / 4
+        fat = (0.2 * calories) / 9
+    elif goal == "MW":
+        carbs = (0.45 * calories) / 4
+        protein = (0.3 * calories) / 4
+        fat = (0.25 * calories) / 9
+    carbs = int(carbs)
+    fat = int(fat)
+    protein = int(protein) 
+    macros = [str(carbs) + "g", str(protein) + "g", str(fat) + "g"]
+    return macros

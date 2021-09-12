@@ -4,9 +4,7 @@ import TextInputBox from '../Components/TextInputBox'
 class InputZone extends Component {
     render() {
         return (
-            <div>
-                <TextInputBox />
-            </div>
+            <TextInputBox sendClick={i => this.props.sendClick(i)} />
         )
     }
 }
