@@ -43,6 +43,12 @@ class DialogueParser {
         const checkForIntolerances = /(?:(?:allergic to|intolerant to|free of)\s*([A-Z]+))|(?:([A-Z]+\s*(?:free|-free|allergy|intolerance)))/ig;
         result.intolerances = this.parseIntolerances(checkForIntolerances, strInput);
 
+        const diets = ['Gluten Free', 'Gluten-Free', 'Ketogenic',
+                        'Keto', 'Vegetarian', 'Lacto-Vegetarian',
+                        'Ovo-Vegetarian', 'Vegan', 'Pescetarian',
+                        'Paleo', 'Primal', 'Whole30'];
+        const checkForDiets = new RegExp(`(${diets.join('|')})`, 'ig');
+        result.diets = this.parseDiets(checkForDiets, strInput);
 
         return result;
     }
@@ -171,7 +177,6 @@ class DialogueParser {
         let regexRet = regex.exec(input);
         let qualifier;
         while (regexRet !== null) {
-            console.log(regexRet);
             qualifier = regexRet[1];
             if (qualifier === 'with' || qualifier === 'including' || qualifier === 'w/') {
                 ingredients.with.text.push(regexRet[0])
@@ -187,26 +192,48 @@ class DialogueParser {
     }
 
     parseIntolerances(regex, input) {
-        const ingredients = {
+        const intolerances = {
             text: [],
             intolerance: []
         };
 
         let regexRet = regex.exec(input);
         while (regexRet !== null) {
-            console.log(regexRet);
-            ingredients.text.push(regexRet[0])
-            ingredients.intolerance.push(regexRet[1]);
+            intolerances.text.push(regexRet[0])
+            intolerances.intolerance.push(regexRet[1]);
             regexRet = regex.exec(input);
         }
 
-        return ingredients;
+        return intolerances;
+    }
+
+    parseDiets(regex, input) {
+        const diets = {
+            text: [],
+            diet: []
+        };
+        console.log(regex);
+        let regexRet = regex.exec(input);
+        while (regexRet !== null) {
+            console.log(regexRet);
+            diets.text.push(regexRet[1])
+            if (regexRet[1].toLowerCase() === 'gluten-free') {
+                diets.diet.push('gluten free')
+            } else if (regexRet[1].toLowerCase() === 'keto') {      
+                diets.diet.push('ketogenic');
+            } else {
+                diets.diet.push(regexRet[1].toLowerCase());
+            }
+            regexRet = regex.exec(input);
+        }
+
+        return diets;
     }
 }
 
 let parser = new DialogueParser;
 
-let test = parser.parse("I am pounds or 6000 grams. I am 10 years old. Recipe with tomato, w/ love, without egg, no milk");
+let test = parser.parse("I am pounds or 6000 grams. I am 10 years old. Recipe with tomato, w/ love, without egg, no milk. allergic to eggs keto and vegan");
 
 console.log(test);
 
