@@ -47,6 +47,8 @@ class Layout extends Component {
             chatHistory: newChatHistory
         })
 
+        axios.defaults.xsrfCookieName = 'csrftoken';
+        axios.defaults.xsrfHeaderName = 'X-CSRFToken';
         axios.post('', {
             firstName: 'Fred',
             lastName: 'Flintstone'
