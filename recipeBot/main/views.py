@@ -12,19 +12,20 @@ def index(response):
     recipeAddress = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=' + recipeApi
     result = []
     if response.method == "POST":
-        age = int(response.POST.get('ageInput'))
-        gender = response.POST.get('genderInput')[0].upper()
-        weight = int(response.POST.get('weightInput'))
-        height = int(response.POST.get('heightInput'))
-        activityLevel = response.POST.get('activityInput')
-        goal = response.POST.get('goalInput')
+        print(response.POST.get('firstName'))
+        # age = int(response.POST.get('ageInput'))
+        # gender = response.POST.get('genderInput')[0].upper()
+        # weight = int(response.POST.get('weightInput'))
+        # height = int(response.POST.get('heightInput'))
+        # activityLevel = response.POST.get('activityInput')
+        # goal = response.POST.get('goalInput')
 
-        calories = calculateCaloricIntakeMetric(gender, weight, height, age, activityLevel)
+        # calories = calculateCaloricIntakeMetric(gender, weight, height, age, activityLevel)
 
-        macros = caloricToMacros(calories, goal)
+        # macros = caloricToMacros(calories, goal)
 
-        protein = '&minProtein=' + str(int(macros[1][:1])/4)
-        recipeAddress = recipeAddress + protein
+        # protein = '&minProtein=' + str(int(macros[1][:1])/4)
+        # recipeAddress = recipeAddress + protein
         r = requests.get(recipeAddress)
         j = json.loads(r.text)
 
