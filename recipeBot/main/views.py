@@ -16,8 +16,8 @@ class HomePageView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        print(request)
-        print('test')
+        data = json.loads(request.body)
+        print(data)
         # Your code here
         # Here request.POST is the same as self.request.POST
         # You can also access all possible self variables
