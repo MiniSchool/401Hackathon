@@ -39,7 +39,14 @@ class Layout extends Component {
         let chatbotMessage = {
             sendByUser: false,
             responseType: newChatHistory.length % 3 % 2,
-            responseOptions: ["Male", "Female", "Vegetarian", "Vegan"],
+            responseOptions: ["Male", "Female"],
+            text: "This is a response from the chatbot.",
+        }
+
+        let otherChatBotMessege = {
+            sendByUser: false,
+            responseType: newChatHistory.length % 3 % 2,
+            responseOptions: ["Sedentary", "Lightly Active", "Moderately Active", "Very Active", "Extra Active"],
             text: "This is a response from the chatbot.",
         }
 

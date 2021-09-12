@@ -8,11 +8,18 @@ from django.views.generic.base import TemplateView
 class HomePageView(TemplateView):
     template_name = 'index.html'
 
+    userValues = {}
+
+    recipeValues = {}
+
     def get_context_data(self, **kwargs):
         kwargs = super(HomePageView, self).get_context_data(**kwargs)
         # Your code here
         kwargs['foo'] = "bar"
         return kwargs
+
+    def get(self, request):
+        print(request)
 
     def post(self, request, *args, **kwargs):
         recipeAddress = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=53402d637f4345cb83aac523d64ec275'
@@ -27,22 +34,82 @@ class HomePageView(TemplateView):
         # if bar: self.template_name = 'path-to-new-template.html'
         # previous_foo = context['foo']
         context['new_variable'] = 'new_variable' + ' updated'
+
+        if ('age' in data):
+            self.userValues['age'] = int(data['age']['years'])
+        if ('gender' in data):
+            self.userValues['gender'] = data['gender']
+        if ('activityLevel' in data):
+            self.userValues['activityLevel'] = data['activityLevel']
+        if ('imperialHeight' in data):
+            self.userValues['imperialHeight'] = {}
+            self.userValues['imperialHeight']['feet'] = int(data['imperialHeight']['feet'])
+            self.userValues['imperialHeight']['inches'] = int(data['imperialHeight']['inches'])
+        if ('metricHeight' in data):
+            self.userValues['metricHeight'] = int(data['metricHeight']['cm'])
+        if ('imperialWeight' in data):
+            self.userValues['imperialWeight'] = int(data['imperialWeight']['lb'])
+        if ('metricWeight' in data):
+            self.userValues['metricWeight'] = int(data['metricWeight']['kg'])
+        if ('goal' in data):
+            self.userValues['goal'] = data['goal']
+            
+        if ('ingredients' in data):
+            self.recipeValues['ingredients'] = data['ingredients']
+        if ('intolerances' in data):
+            self.recipeValues['intolerances'] = data['intolerances']
+        if ('diets' in data):
+            self.recipeValues['diets'] = data['diets']
+
+        print(self.recipeValues)
+
+
+        if ('bmi' not in self.userValues):
+            if ('imperialHeight' in self.userValues and 'imperialWeight' in self.userValues):
+                height = self.userValues['imperialHeight']
+                weight = self.userValues['imperialWeight']
+                self.userValues['bmi'] = self.calculateBmiImperial(height['feet'], height['inches'], weight)
+            elif ('metricHeight' in self.userValues and 'metricWeight' in self.userValues):
+                height = self.userValues['metricHeight']
+                weight = self.userValues['metricWeight']
+                self.userValues['bmi'] = self.calculateBmiImperial(height, weight)
+
+        if ('caloricIntake' not in self.userValues):
+            if ('gender' in self.userValues and 'age' in self.userValues and 'activityLevel' in self.userValues):
+                gender = self.userValues['gender']
+                age = self.userValues['age']
+                activityLevel = self.userValues['activityLevel']
+                if ('imperialHeight' in self.userValues and 'imperialWeight' in self.userValues):
+                    height = self.userValues['imperialHeight']
+                    weight = self.userValues['imperialWeight']
+                    self.userValues['caloricIntake'] = self.calculateCaloricIntakeImperial(gender, weight, height['feet'], height['inches'], age, activityLevel)
+                elif ('metricHeight' in self.userValues and 'metricWeight' in self.userValues):
+                    height = self.userValues['metricHeight']
+                    weight = self.userValues['metricWeight']
+                    self.userValues['caloricIntake'] = self.calculateCaloricIntakeMetric(gender, weight, height, age, activityLevel)
+        elif ('macros' not in self.userValues and 'goal' in self.userValues):
+            self.userValues['macros'] = self.caloricToMacros(self.userValues['caloricIntake'], self.userValues['goal'])
+
+        print(self.userValues)
+
+        #if (self.recip)
         
+
         return self.render_to_response(context)
     
     # formulas found in https://drbillsukala.com/body-mass-index-calculator/#:~:text=BMI%20imperial%20formula&text=The%20US%20imperial%20formula%20for,in%20inches%20(height%20squared).
-    def calculateBmiMetric(request ,height:int, weight:int):
+    def calculateBmiMetric(self ,height:int, weight:int):
         BMI = (weight / height / height) * 10000
         return BMI
 
 
-    def calculateBmiImperial(request,feet:int, inches:int, weight:int):
+    def calculateBmiImperial(self,feet:int, inches:int, weight:int):
         inchConversion = (12 * feet) + inches
         BMI = ((weight * 703) / (inchConversion ** 2))
         return BMI
 
     # formulas found in https://www.checkyourhealth.org/eat-healthy/cal_calculator.php
-    def calculateCaloricIntakeImperial(gender, weight, feet, inches, age, activityLevel):
+    def calculateCaloricIntakeImperial(self, gender, weight, feet, inches, age, activityLevel):
         activityLevelClassification = {"S": "Sedentary", "LA" : "Lightly Active", "MA" : "Moderately Active", "VA": "Very Active", "EA" : "Extra Active"}
         inchConversion = (12 * feet) + inches
         if gender == 'M':
@@ -52,6 +119,7 @@ class HomePageView(TemplateView):
         else:
             print("Gender not specified, try again!")
     
+        calories = 0
         if activityLevel == 'S':
             calories = BMR * 1.2
         elif activityLevel == 'LA':
@@ -68,7 +136,7 @@ class HomePageView(TemplateView):
         return calories
 
     #formula found in https://www.verywellfit.com/how-many-calories-do-i-need-each-day-2506873
-    def calculateCaloricIntakeMetric(gender, weight, height, age, activityLevel):
+    def calculateCaloricIntakeMetric(self, gender, weight, height, age, activityLevel):
         activityLevelClassification = {"S": "Sedentary", "LA" : "Lightly Active", "MA" : "Moderately Active", "VA": "Very Active", "EA" : "Extra Active"}
         if gender == 'M':
             BMR = 66.47 + (13.75 * weight) + (5.003 * height) - (6.755 * age)
@@ -77,6 +145,7 @@ class HomePageView(TemplateView):
         else:
             print("Gender not specified, try again!")
     
+        calories = 0
         if activityLevel == 'S':
             calories = BMR * 1.2
         elif activityLevel == 'LA':

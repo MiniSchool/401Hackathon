@@ -17,6 +17,35 @@ class DialogueParser {
             return result;
         }
 
+        
+        switch (strInput) {
+            case "Sedentary":
+                result.activityLevel = "S";
+                break;
+            case "Lightly Active":
+                result.activityLevel = "LA";
+                break;
+            case "Moderately Active":
+                result.activityLevel = "MA";
+                break;
+            case "Very Active":
+                result.activityLevel = "VA";
+                break;
+            case "Extra Active":
+                result.activityLevel = "EA";
+                break;
+            case "Lose Weight":
+                result.goal = 'LW';
+                break;
+            case "Maintain Weight":
+                result.goal = 'MW';
+                break;
+            case "Gain Weight":
+                result.goal = 'GW';
+                break;
+        }
+        
+
         const imHeight = /(\d)\s*(?:'|ft|foot|feet)\s*(?:(\d\d?)\s*(?:"|in|inch|inches))?/;
         let regexRet = imHeight.exec(strInput);
         if (regexRet) result.imperialHeight = this.parseImperialHeight(regexRet);
@@ -39,9 +68,15 @@ class DialogueParser {
 
         const checkForIngredients = /(with|including|w\/|without|no)\s+([A-Z]+)/ig;
         result.ingredients = this.parseIngredients(checkForIngredients, strInput);
+        if (!result.ingredients ||
+            ((!result.ingredients.with || result.ingredients.with.text.length === 0) &&
+            (!result.ingredients.without || result.ingredients.without.text.length === 0))) {
+                delete result.ingredients;
+            }
 
         const checkForIntolerances = /(?:(?:allergic to|intolerant to|free of)\s*([A-Z]+))|(?:([A-Z]+\s*(?:free|-free|allergy|intolerance)))/ig;
         result.intolerances = this.parseIntolerances(checkForIntolerances, strInput);
+        if (!result.intolerances || result.intolerances.text.length === 0) delete result.intolerances;
 
         const diets = ['Gluten Free', 'Gluten-Free', 'Ketogenic',
                         'Keto', 'Vegetarian', 'Lacto-Vegetarian',
@@ -49,6 +84,7 @@ class DialogueParser {
                         'Paleo', 'Primal', 'Whole30'];
         const checkForDiets = new RegExp(`(${diets.join('|')})`, 'ig');
         result.diets = this.parseDiets(checkForDiets, strInput);
+        if (!result.diets || result.diets.text.length === 0) delete result.diets;
 
         return result;
     }
