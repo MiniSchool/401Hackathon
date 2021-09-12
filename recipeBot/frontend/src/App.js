@@ -7,7 +7,9 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>The App</h1>
+        <div className="fixed-header">
+          <h2>Nutrition Chatbot</h2>
+        </div>
       </header>
       <body>
         <Layout />
