@@ -42,7 +42,9 @@ class Layout extends Component {
             <div>
                 <MainBody chatHistory={this.state.chatHistory} />
                 {/* <InputZone sendClick={i => this.handleSend(i)} /> */}
-                <TextInputBox sendClick={i => this.handleSend(i)} />
+                <div className="input-zone">
+                    <TextInputBox sendClick={i => this.handleSend(i)} />
+                </div>
             </div>
         )
     }

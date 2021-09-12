@@ -10,9 +10,9 @@ class TextInputBox extends Component {
     render() {
         return (
             <div className="input-zone">
-                <div className="input-group mb-3">
+                <div className="input-group mb-3 input-box">
                     <input id="text-input" type="text" className="form-control" placeholder="Chat with me" aria-label="Chat with Me" aria-describedby="button-addon2" ref={this.textRef} />
-                    <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={e => this.props.sendClick(this.textRef.current.value)}>Send</button>
+                    <button className="btn btn-secondary" type="button" id="button-addon2" onClick={e => this.props.sendClick(this.textRef.current.value)}>Send</button>
                 </div>
             </div>
         )
