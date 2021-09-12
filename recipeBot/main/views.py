@@ -2,6 +2,33 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 import requests, json, os
 from rest_framework import viewsets
+from django.views.generic.base import TemplateView
+# from articles.models import Article
+
+class HomePageView(TemplateView):
+    template_name = 'index.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs = super(HomePageView, self).get_context_data(**kwargs)
+        # Your code here
+        kwargs['foo'] = "bar"
+        return kwargs
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        print(request)
+        print('test')
+        # Your code here
+        # Here request.POST is the same as self.request.POST
+        # You can also access all possible self variables
+        # like changing the template name for instance
+        # bar = self.request.POST.get('foo', None)
+        # if bar: self.template_name = 'path-to-new-template.html'
+        # previous_foo = context['foo']
+        context['new_variable'] = 'new_variable' + ' updated'
+        
+        return self.render_to_response(context)
+
 
 # class IndexView(viewsets.ModelViewSet):
 
@@ -12,6 +39,7 @@ def index(response):
     recipeAddress = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=' + recipeApi
     result = []
     if response.method == "POST":
+        print('test')
         print(response.POST.get('firstName'))
         # age = int(response.POST.get('ageInput'))
         # gender = response.POST.get('genderInput')[0].upper()
