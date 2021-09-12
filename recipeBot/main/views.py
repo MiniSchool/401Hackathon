@@ -116,8 +116,6 @@ class HomePageView(TemplateView):
             BMR = 66 + (6.3 * weight) + (12.9 * inchConversion) - (6.8 * age)
         elif gender == 'F':
             BMR = 655 + (4.3 * weight) + (4.7 * inchConversion) - (4.7 * age)
-        else:
-            print("Gender not specified, try again!")
     
         calories = 0
         if activityLevel == 'S':
@@ -130,8 +128,6 @@ class HomePageView(TemplateView):
             calories = BMR * 1.725
         elif activityLevel == 'EA':
             calories = BMR * 1.9
-        else:
-            print("activity level not specified, try again!")
 
         return calories
 
@@ -142,8 +138,6 @@ class HomePageView(TemplateView):
             BMR = 66.47 + (13.75 * weight) + (5.003 * height) - (6.755 * age)
         elif gender == 'F':
             BMR = 655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age)
-        else:
-            print("Gender not specified, try again!")
     
         calories = 0
         if activityLevel == 'S':
@@ -156,12 +150,10 @@ class HomePageView(TemplateView):
             calories = BMR * 1.725
         elif activityLevel == 'EA':
             calories = BMR * 1.9
-        else:
-            print("activity level not specified, try again!")
         return calories
 
     # ratios can be found here: https://www.acefitness.org/education-and-resources/professional/expert-articles/5904/how-to-determine-the-best-macronutrient-ratio-for-your-goals/
-    def caloricToMacros(request ,calories, goal):
+    def caloricToMacros(self ,request ,calories, goal):
         macroGoalClassification = {"LW": "Lose Weight", "GW": "Gain Weight", "MW": "Maintain Weight"}
         macros = []
         if goal == "LW":

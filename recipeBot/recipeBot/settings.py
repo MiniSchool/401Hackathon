@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-f(^v&$*y4%3+ilfc(z#fzz4n1gn_fuwm#p)^^mh(_ts_5d#93*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['recipebot-dev.us-west-2.elasticbeanstalk.com/']
 
 
 # Application definition
@@ -56,7 +56,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'recipeBot.urls'
-
 FRONTEND_DIR = os.path.abspath(os.path.join(BASE_DIR, "frontend"))
 
 TEMPLATES = [
